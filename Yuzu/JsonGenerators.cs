@@ -37,7 +37,7 @@ namespace Yuzu.Json
 					GetDeserializerName(t) + ", " + (Assembly ?? GetType().Assembly).FullName);
 				if (dt == null)
 					throw Error("Generated deserializer not found for type '{0}'", className);
-				result = (JsonDeserializerGenBase)Activator.CreateInstance(dt);
+				result = (JsonDeserializerGenBase)Utils.CreateObject(dt);
 				deserializerCache[className] = result;
 			}
 			result.Reader = Reader;
@@ -47,7 +47,7 @@ namespace Yuzu.Json
 		private object MaybeReadObject(string className, string name)
 		{
 			return name == null ?
-				Activator.CreateInstance(FindType(className)) :
+				Utils.CreateObject(FindType(className)) :
 				MakeDeserializer(className).FromReaderIntPartial(name);
 		}
 
@@ -344,7 +344,7 @@ namespace Yuzu.Json
 
 		private void GenAssigns(string name, object obj)
 		{
-			var def = Activator.CreateInstance(obj.GetType());
+			var def = Utils.CreateObject(obj.GetType());
 			var assigns = obj.GetType().GetMembers().
 				Where(m => !m.IsDefined(typeof(ObsoleteAttribute))).
 				Select(m => {

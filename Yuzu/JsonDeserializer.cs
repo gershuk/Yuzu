@@ -840,7 +840,7 @@ namespace Yuzu.Json
 				return () => {
 					if (RequireOrNull('['))
 						return null;
-					var list = Activator.CreateInstance(t);
+					var list = Utils.CreateObject(t);
 					d(list);
 					return list;
 				};
@@ -977,7 +977,7 @@ namespace Yuzu.Json
 				if (meta.Surrogate.FuncFrom == null)
 					throw Error("Attempt to read non-compact type '{0}' from compact format", obj.GetType());
 				return meta.Surrogate.FuncFrom(
-					ReadFieldsCompact(Activator.CreateInstance(meta.Surrogate.SurrogateType)));
+					ReadFieldsCompact(Utils.CreateObject(meta.Surrogate.SurrogateType)));
 			}
 			meta.BeforeDeserialization.Run(obj);
 			bool isFirst = true;
@@ -1039,7 +1039,7 @@ namespace Yuzu.Json
 						return (T)ReadFields(meta.Factory(), GetNextName(first: false));
 					}
 					return (T)GetSurrogate<T>(t).FuncFrom(
-						ReadFields(Activator.CreateInstance(t), GetNextName(first: false)));
+						ReadFields(Utils.CreateObject(t), GetNextName(first: false)));
 				case '[': {
 					var meta = Meta.Get(typeof(T), Options);
 					return (T)ReadFieldsCompact(meta.Factory());

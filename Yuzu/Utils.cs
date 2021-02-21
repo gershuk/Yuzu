@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
 namespace Yuzu.Util
 {
 	internal static class Utils
 	{
+		public static object CreateObject (Type type) => (type.IsValueType || type.GetConstructor(Type.EmptyTypes) != null) ? Activator.CreateInstance(type) : FormatterServices.GetUninitializedObject(type);
+
 		public static object[] ZeroObjects = new object[] { };
 
 		public static string QuoteCSharpStringLiteral(string s)

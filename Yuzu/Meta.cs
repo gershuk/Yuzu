@@ -84,7 +84,7 @@ namespace Yuzu.Metadata
 		public Func<object, int, object, bool> SerializeItemIf;
 		public MethodInfo SerializeItemIfMethod;
 
-		private object defaultFactory() => Activator.CreateInstance(Type);
+		private object defaultFactory() => Utils.CreateObject(Type);
 		public MethodInfo FactoryMethod;
 		public Func<object> Factory;
 
@@ -148,7 +148,7 @@ namespace Yuzu.Metadata
 				attrs = attrTypes.Select(t => over.Attr(t)).ToArray();
 				Count = attrs.Count(a => a != null);
 				if (Count == 0 && opt > 0 && attrTypes[(int)opt - 1] != null) {
-					attrs[(int)opt - 1] = Activator.CreateInstance(attrTypes[(int)opt - 1]) as Attribute;
+					attrs[(int)opt - 1] = Utils.CreateObject(attrTypes[(int)opt - 1]) as Attribute;
 					Count = 1;
 				}
 			}
