@@ -264,7 +264,7 @@ namespace Yuzu.Metadata
 					if (getter == null)
 						throw Error("No getter for item '{0}'", p.Name);
 					item.Type = p.PropertyType;
-					var setter = p.GetSetMethod();
+					var setter = p.GetSetMethod(true);
 #if iOS // Apple forbids code generation.
 					item.GetValue = obj => p.GetValue(obj, Utils.ZeroObjects);
 					if (!merge && setter != null)
