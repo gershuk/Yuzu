@@ -260,7 +260,7 @@ namespace Yuzu.Metadata
 					break;
 				case MemberTypes.Property:
 					var p = m as PropertyInfo;
-					var getter = p.GetGetMethod();
+					var getter = p.GetGetMethod(true);
 					if (getter == null)
 						throw Error("No getter for item '{0}'", p.Name);
 					item.Type = p.PropertyType;
@@ -353,7 +353,7 @@ namespace Yuzu.Metadata
 						break;
 					case MemberTypes.Property:
 						var p = m as PropertyInfo;
-						var g = p.GetGetMethod();
+						var g = p.GetGetMethod(true);
 						if (p.PropertyType == typeof(YuzuUnknownStorage)) {
 							if (GetUnknownStorage != null)
 								throw Error("Duplicated unknown storage in field {0}", m.Name);
